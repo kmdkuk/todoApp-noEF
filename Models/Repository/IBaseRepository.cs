@@ -7,8 +7,8 @@ namespace todoApp.Models
 {
     public interface IBaseRepository<TEntity>
     {
-        TEntity Get(String id);
-        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<TEntity> FindAsync(String id);
+        Task<IEnumerable<TEntity>> FindAllAsync();
         void Insert(TEntity entity);
         void Delete(String id);
         void Update(TEntity entity);

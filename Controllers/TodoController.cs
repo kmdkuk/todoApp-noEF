@@ -34,14 +34,14 @@ namespace todoApp.Controllers
         [HttpGet]
         public async Task<IEnumerable<TodoItem>> GetTodoItems()
         {
-            return await _uow.TodoItemRepository.GetAllAsync();
+            return await _uow.TodoItemRepository.FindAllAsync();
         }
 
         // GET: api/Todo/5
         [HttpGet("{id}")]
-        public ActionResult<TodoItem> GetTodoItem(String id)
+        public async Task<ActionResult<TodoItem>> GetTodoItem(String id)
         {
-            var todoItem = _uow.TodoItemRepository.Get(id);
+            var todoItem = await _uow.TodoItemRepository.FindAsync(id);
 
             if (todoItem == null)
             {

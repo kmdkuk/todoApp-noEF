@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.Configuration;
@@ -45,12 +46,17 @@ namespace todoApp.Models.Repository
             throw new NotImplementedException();
         }
 
-        public TodoItem Get(String id)
+        public async Task<TodoItem> FindAsync(String id)
         {
-            throw new NotImplementedException();
+            using (IDbConnection db = Connection)
+            {
+                db.Open();
+                var query = $"SELECT * FROM {tableName} WHERE Id LIKE '{id}'";
+                return (await db.QueryAsync<TodoItem>(query)).FirstOrDefault<TodoItem>();
+            }
         }
 
-        public async Task<IEnumerable<TodoItem>> GetAllAsync()
+        public async Task<IEnumerable<TodoItem>> FindAllAsync()
         {
             IEnumerable<TodoItem> result;
             using (IDbConnection db = Connection)
