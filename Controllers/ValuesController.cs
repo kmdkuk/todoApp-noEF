@@ -14,6 +14,7 @@ namespace todoApp.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            Console.Out.WriteLine("values get");
             return new string[] { "value1", "value2" };
         }
 
