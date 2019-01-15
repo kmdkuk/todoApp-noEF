@@ -73,5 +73,20 @@ namespace todoApp.Controllers
 
             return NoContent();
         }
+
+        // DELETE: api/Todo/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<TodoItem>> DeleteTodoItem(string id)
+        {
+            var todoItem = await _uow.TodoItems.FindAsync(id);
+            if (todoItem == null)
+            {
+                return NotFound();
+            }
+
+            await _uow.TodoItems.Remove(todoItem);
+
+            return todoItem;
+        }
     }
 }

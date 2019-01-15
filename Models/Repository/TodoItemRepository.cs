@@ -41,9 +41,25 @@ namespace todoApp.Models.Repository
             }
         }
 
-        public async Task Delete(String id)
+        public async Task Remove(TodoItem entity)
         {
-            throw new NotImplementedException();
+            using (IDbConnection db = Connection)
+            {
+                db.Open();
+                using (var tran = db.BeginTransaction())
+                {
+                    try
+                    {
+                        String sql = $@"DELETE FROM {tableName} WHERE Id LIKE @Id";
+                        await db.ExecuteAsync(sql, entity, tran);
+                        tran.Commit();
+                    }
+                    catch
+                    {
+                        tran.Rollback();
+                    }
+                }
+            }
         }
 
         public async Task<TodoItem> FindAsync(String id)
