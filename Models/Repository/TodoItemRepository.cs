@@ -12,6 +12,7 @@ namespace todoApp.Models.Repository
     public class TodoItemRepository:IBaseRepository<TodoItem>,ITodoItemRepository
     {
         private string connectionString = null;
+        private string tableName = "[todoApp].[dbo].[TodoItems]";
 
         internal IDbConnection Connection
         {
@@ -32,7 +33,11 @@ namespace todoApp.Models.Repository
 
         public int Count()
         {
-            return 0;
+            using (IDbConnection db = Connection)
+            {
+                var result = db.ExecuteScalar<int>($"SELECT COUNT(*) FROM {tableName}");
+                return result;
+            }
         }
 
         public void Delete(String id)
@@ -51,7 +56,7 @@ namespace todoApp.Models.Repository
             using (IDbConnection db = Connection)
             {
                 db.Open();
-                var query = "SELECT * FROM [todoApp].[dbo].[TodoItems]";
+                var query = $"SELECT * FROM {tableName}";
                 result = await db.QueryAsync<TodoItem>(query);
                 Console.Out.WriteLine(result);
             }
@@ -68,7 +73,7 @@ namespace todoApp.Models.Repository
                     try
                     {
                         entity.Id = Guid.NewGuid().ToString("N");
-                        String sql = @"INSERT INTO [todoApp].[dbo].[TodoItems] (Id ,Name, IsComplete) VALUES (@Id, @Name, @IsComplete)";
+                        String sql = $@"INSERT INTO {tableName} (Id ,Name, IsComplete) VALUES (@Id, @Name, @IsComplete)";
                         db.Execute(sql, entity, tran);
                         tran.Commit();
                     }
