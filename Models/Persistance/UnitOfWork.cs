@@ -5,18 +5,18 @@ namespace todoApp.Models.Persistance
 {
     public class UnitOfWork:IUnitOfWork
     {
-        private ITodoItemRepository todoItemRepository;
+        private ITodoItemRepository todoItems;
 
-        public ITodoItemRepository TodoItemRepository
+        public ITodoItemRepository TodoItems
         {
             get
             {
 
-                if (todoItemRepository == null)
+                if (todoItems == null)
                 {
-                    todoItemRepository = new TodoItemRepository(_configuration);
+                    todoItems = new TodoItemRepository(_configuration);
                 }
-                return todoItemRepository;
+                return todoItems;
             }
         }
 

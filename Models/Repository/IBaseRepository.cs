@@ -9,9 +9,9 @@ namespace todoApp.Models
     {
         Task<TEntity> FindAsync(String id);
         Task<IEnumerable<TEntity>> FindAllAsync();
-        void Insert(TEntity entity);
-        void Delete(String id);
-        void Update(TEntity entity);
+        Task Add(TEntity entity);
+        Task Delete(String id);
+        Task Update(TEntity entity);
         int Count();
     }
 }

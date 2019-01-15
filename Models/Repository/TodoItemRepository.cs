@@ -41,7 +41,7 @@ namespace todoApp.Models.Repository
             }
         }
 
-        public void Delete(String id)
+        public async Task Delete(String id)
         {
             throw new NotImplementedException();
         }
@@ -69,7 +69,7 @@ namespace todoApp.Models.Repository
             return result;
         }
 
-        public void Insert(TodoItem entity)
+        public async Task Add(TodoItem entity)
         {
             using (IDbConnection db = Connection)
             {
@@ -80,7 +80,7 @@ namespace todoApp.Models.Repository
                     {
                         entity.Id = Guid.NewGuid().ToString("N");
                         String sql = $@"INSERT INTO {tableName} (Id ,Name, IsComplete) VALUES (@Id, @Name, @IsComplete)";
-                        db.Execute(sql, entity, tran);
+                        await db.ExecuteAsync(sql, entity, tran);
                         tran.Commit();
                     }
                     catch
@@ -91,9 +91,25 @@ namespace todoApp.Models.Repository
             }
         }
 
-        public void Update(TodoItem entity)
+        public async Task Update(TodoItem entity)
         {
-            throw new NotImplementedException();
+            using (IDbConnection db = Connection)
+            {
+                db.Open();
+                using (var tran = db.BeginTransaction())
+                {
+                    try
+                    {
+                        var sql = $@"UPDATE {tableName} SET Name = @Name, IsComplete = @IsComplete WHERE Id LIKE @Id";
+                        await db.ExecuteAsync(sql, entity, tran);
+                        tran.Commit();
+                    }
+                    catch
+                    {
+                        tran.Rollback();
+                    }
+                }
+            }
         }
     }
 }

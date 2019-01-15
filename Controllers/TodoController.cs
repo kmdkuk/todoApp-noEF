@@ -22,11 +22,11 @@ namespace todoApp.Controllers
         public TodoController(IUnitOfWork uow)
         {
             _uow = uow;
-            if (_uow.TodoItemRepository.Count() == 0)
+            if (_uow.TodoItems.Count() == 0)
             {
                 // Create a new TodoItem if collection is empty,
                 // which means you can't delete all TodoItems.
-                _uow.TodoItemRepository.Insert(new TodoItem { Name = "Item1" , IsComplete = false});
+                _uow.TodoItems.Add(new TodoItem { Name = "Item1" , IsComplete = false});
             }
         }
 
@@ -34,14 +34,14 @@ namespace todoApp.Controllers
         [HttpGet]
         public async Task<IEnumerable<TodoItem>> GetTodoItems()
         {
-            return await _uow.TodoItemRepository.FindAllAsync();
+            return await _uow.TodoItems.FindAllAsync();
         }
 
         // GET: api/Todo/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TodoItem>> GetTodoItem(String id)
         {
-            var todoItem = await _uow.TodoItemRepository.FindAsync(id);
+            var todoItem = await _uow.TodoItems.FindAsync(id);
 
             if (todoItem == null)
             {
@@ -50,8 +50,28 @@ namespace todoApp.Controllers
 
             return todoItem;
         }
+
+        // POST: api/Todo
+        [HttpPost]
+        public async Task<ActionResult<TodoItem>> PostTodoItem(TodoItem todoItem)
+        {
+            await _uow.TodoItems.Add(todoItem);
+
+            return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
+        }
+
+        // PUT: api/Todo/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutTodoItem(String id, TodoItem todoItem)
+        {
+            if (id != todoItem.Id)
+            {
+                return BadRequest();
+            }
+
+            await _uow.TodoItems.Update(todoItem);
+
+            return NoContent();
+        }
     }
-
-
-
 }

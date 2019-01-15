@@ -5,6 +5,6 @@ namespace todoApp.Models.Persistance
 {
     public interface IUnitOfWork
     {
-        ITodoItemRepository TodoItemRepository { get;}
+        ITodoItemRepository TodoItems { get;}
     }
 }
