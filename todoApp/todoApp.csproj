@@ -17,9 +17,4 @@
     <Folder Include="Models\Persistance\" />
     <Folder Include="SQL\" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Models\TodoContext.cs" />
-    <Compile Remove="Models\TodoContext.cs" />
-    <Compile Remove="Models\Repository\BaseRepository.cs" />
-  </ItemGroup>
 </Project>

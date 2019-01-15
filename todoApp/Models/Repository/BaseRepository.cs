@@ -6,37 +6,32 @@ namespace todoApp.Models
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : IBaseEntity
     {
+        public Task Add(TEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public int Count()
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(String id)
+        public Task<IEnumerable<TEntity>> FindAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public TEntity FindAsync(String id)
+        public Task<TEntity> FindAsync(string id)
         {
             throw new NotImplementedException();
         }
 
-        public TEntity Get(String id)
+        public Task Remove(TEntity entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<TEntity>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Insert(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(TEntity entity)
+        public Task Update(TEntity entity)
         {
             throw new NotImplementedException();
         }
