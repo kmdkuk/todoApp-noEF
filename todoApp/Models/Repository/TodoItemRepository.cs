@@ -13,7 +13,7 @@ namespace todoApp.Models.Repository
     public class TodoItemRepository:IBaseRepository<TodoItem>,ITodoItemRepository
     {
         private string connectionString = null;
-        private string tableName = "[todoApp].[dbo].[TodoItems]";
+        private string tableName = "[dbo].[TodoItems]";
 
         internal IDbConnection Connection
         {
