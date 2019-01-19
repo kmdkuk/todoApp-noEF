@@ -32,9 +32,9 @@ namespace todoApp.Controllers
 
         // GET: api/Todo
         [HttpGet]
-        public async Task<IEnumerable<TodoItem>> GetTodoItems()
+        public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
         {
-            return await _uow.TodoItems.FindAllAsync();
+            return Ok(await _uow.TodoItems.FindAllAsync());
         }
 
         // GET: api/Todo/5
